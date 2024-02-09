@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 
 export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
@@ -30,7 +31,7 @@ export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
         event.preventDefault();
 
         if (!username || (!password && id === 0) || !email) {
-            alert('Completar campos');
+            Swal.fire("Favor de rellenar los campos ");
             return;
         }
 
@@ -75,6 +76,7 @@ export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
                     value={id} />
 
                 <button className="btn btn-primary">{id === 0 ? 'Crear' : 'Editar'}</button>
+                <button className="btn btn-primary mx-2" >Cerrar</button>
 
             </form>
         </>

@@ -15,6 +15,7 @@ export const UsersApp = () => {
           <UserForm initialUserForm={initialUserForm} handlerAddUser={handlerAddUser} userSelected={userSelected} />
         </div>
         <div className="col">
+          <button className="btn btn-primary my-2" >Nuevo Usuario</button>
           {users.length === 0
             ? <div className="alert alert-warning text-center">No Hay Usuarios En el Sistema</div>
             : <UserList users={users} handlerRemoveuser={handlerRemoveuser} handlerUserSelectedForm={handlerUserSelectedForm} />}

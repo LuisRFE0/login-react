@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
+import Swal from "sweetalert2";
 
 const initialUsers = [
     {
@@ -23,26 +24,44 @@ export const useUsers = () => {
 
     const handlerAddUser = (user) => {
 
-        let type;
-        if (user.id === 0) {
-            type = 'addUser';
-        } else {
-            type = 'updateUser';
-        }
-
         dispatch({
-            type,
+            type: (user.id === 0) ? 'addUser' : 'updateUser',
             payload: user
         })
+
+        Swal.fire({
+            title: (user.id === 0) ? 'Usuario creado' : 'Usuario Actualizado',
+            text: (user.id === 0) ? 'Usuario creado correctamente' : 'Usuario Actualizado correctamente',
+            icon: "success"
+        });
     }
 
 
     const handlerRemoveuser = (id) => {
-        dispatch({
-            type: 'removeUser',
-            payload: id
 
-        })
+
+        Swal.fire({
+            title: "Desea eliminar el usuario ",
+            text: "Cuidado el usuario sera eliminado",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, borrar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch({
+                    type: 'removeUser',
+                    payload: id
+
+                })
+                Swal.fire({
+                    title: "Borrar",
+                    text: "El usuario ha sido eliminado",
+                    icon: "success"
+                });
+            }
+        });
     }
 
     const handlerUserSelectedForm = (user) => {
