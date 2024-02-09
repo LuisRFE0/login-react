@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
-export const UserForm = ({ handlerAddUser, initialUserForm }) => {
+export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
 
     const [userForm, setUserform] = useState(initialUserForm);
-    const { username, password, email } = userForm
+    const { id, username, password, email } = userForm;
 
+    useEffect(
+        () => {
+            setUserform({ ...userSelected, password: '' })
+        }, [userSelected])
 
     const onInputChange = ({ target }) => {
 
@@ -25,7 +29,7 @@ export const UserForm = ({ handlerAddUser, initialUserForm }) => {
     const onSubmit = event => {
         event.preventDefault();
 
-        if (!username || !password || !email) {
+        if (!username || (!password && id === 0) || !email) {
             alert('Completar campos');
             return;
         }
@@ -48,15 +52,15 @@ export const UserForm = ({ handlerAddUser, initialUserForm }) => {
                     value={username}
                     onChange={onInputChange}
                 />
-
-                <input
+                {id > 0 || <input
                     type="password"
                     className="form-control my-3 w-75"
                     placeholder="Password"
                     name="password"
                     value={password}
                     onChange={onInputChange}
-                />
+                />}
+
 
                 <input
                     className="form-control my-3 w-75"
@@ -65,7 +69,12 @@ export const UserForm = ({ handlerAddUser, initialUserForm }) => {
                     value={email}
                     onChange={onInputChange}
                 />
-                <button className="btn btn-primary">Crear</button>
+
+                <input type="hidden"
+                    name="id"
+                    value={id} />
+
+                <button className="btn btn-primary">{id === 0 ? 'Crear' : 'Editar'}</button>
 
             </form>
         </>
