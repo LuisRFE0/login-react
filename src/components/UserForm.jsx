@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 
-export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
+export const UserForm = ({ handlerVisibleForm, userSelected, handlerAddUser, initialUserForm }) => {
 
     const [userForm, setUserform] = useState(initialUserForm);
     const { id, username, password, email } = userForm;
@@ -76,7 +76,7 @@ export const UserForm = ({ userSelected, handlerAddUser, initialUserForm }) => {
                     value={id} />
 
                 <button className="btn btn-primary">{id === 0 ? 'Crear' : 'Editar'}</button>
-                <button className="btn btn-primary mx-2" >Cerrar</button>
+                <button className="btn btn-primary mx-2" type="button" onClick={() => handlerVisibleForm(false)}>Cerrar</button>
 
             </form>
         </>

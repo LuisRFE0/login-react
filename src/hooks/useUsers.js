@@ -21,6 +21,8 @@ export const useUsers = () => {
 
     const [users, dispatch] = useReducer(usersReducer, initialUsers);
     const [userSelected, setUserSelected] = useState(initialUserForm);
+    const [visibleForm, setVisibleForm] = useState(false);
+
 
     const handlerAddUser = (user) => {
 
@@ -34,6 +36,9 @@ export const useUsers = () => {
             text: (user.id === 0) ? 'Usuario creado correctamente' : 'Usuario Actualizado correctamente',
             icon: "success"
         });
+
+        setVisibleForm(false);
+        setUserSelected(initialUserForm);
     }
 
 
@@ -62,18 +67,31 @@ export const useUsers = () => {
                 });
             }
         });
+
     }
 
     const handlerUserSelectedForm = (user) => {
+        setVisibleForm(true);
+
         setUserSelected({ ...user });
+    }
+
+
+    const handlerVisibleForm = (visible) => {
+        setVisibleForm(visible);
+        if (!visible) {
+            setUserSelected(initialUserForm);
+        }
     }
 
     return {
         users,
         userSelected,
         initialUserForm,
+        visibleForm,
         handlerAddUser,
         handlerRemoveuser,
-        handlerUserSelectedForm
+        handlerUserSelectedForm,
+        handlerVisibleForm
     }
 }

@@ -19,7 +19,8 @@ export const UserList = ({ handlerUserSelectedForm, handlerRemoveuser, users = [
                 <tbody>
                     {
                         users.map(user => (
-                            <UserRow handlerUserSelectedForm={handlerUserSelectedForm}
+                            <UserRow
+                                handlerUserSelectedForm={handlerUserSelectedForm}
                                 handlerRemoveuser={handlerRemoveuser}
                                 key={user.id}
                                 id={user.id}
