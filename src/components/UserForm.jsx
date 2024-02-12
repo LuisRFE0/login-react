@@ -76,7 +76,8 @@ export const UserForm = ({ handlerVisibleForm, userSelected, handlerAddUser, ini
                     value={id} />
 
                 <button className="btn btn-primary">{id === 0 ? 'Crear' : 'Editar'}</button>
-                <button className="btn btn-primary mx-2" type="button" onClick={() => handlerVisibleForm(false)}>Cerrar</button>
+                {!handlerVisibleForm || <button className="btn btn-primary mx-2" type="button" onClick={() => handlerVisibleForm(false)}>Cerrar</button>
+                }
 
             </form>
         </>

@@ -4,9 +4,8 @@ import { useUsers } from "../hooks/useUsers";
 
 
 
-export const UsersPage = () => {
+export const UsersPage = ({ users, userSelected, initialUserForm, handlerAddUser, handlerRemoveuser, handlerUserSelectedForm, visibleForm, handlerVisibleForm }) => {
 
-    const { users, userSelected, initialUserForm, handlerAddUser, handlerRemoveuser, handlerUserSelectedForm, visibleForm, handlerVisibleForm } = useUsers();
 
     return (
         <>
