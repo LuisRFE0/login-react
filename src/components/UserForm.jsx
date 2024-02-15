@@ -34,6 +34,11 @@ export const UserForm = ({ handlerVisibleForm, userSelected, handlerAddUser, ini
             Swal.fire("Favor de rellenar los campos ");
             return;
         }
+        if (!email.includes('@')) {
+            Swal.fire("El email debe ser valido");
+            return;
+
+        }
 
         handlerAddUser(userForm)
         setUserform(initialUserForm);
