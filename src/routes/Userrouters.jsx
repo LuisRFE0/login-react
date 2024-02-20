@@ -2,40 +2,28 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { UsersPage } from "../pages/UsersPage"
 import { Navbar } from "../components/layout/Navbar"
 import { RegisterPage } from "../pages/RegisterPage"
-import { useUsers } from "../hooks/useUsers"
+import { UserProvider } from "../context/UserProvider"
 
-export const Userrouters = ({ login, handlerLogOut }) => {
-    const { users, userSelected, initialUserForm, handlerAddUser, handlerRemoveuser, handlerUserSelectedForm, visibleForm, handlerVisibleForm } = useUsers();
+
+export const Userrouters = () => {
+
 
     return (
         <>
-            <Navbar login={login} handlerLogOut={handlerLogOut} />
+            <UserProvider>
+                <Navbar />
 
-            <Routes>
-                <Route path="users" element={< UsersPage
-                    users={users}
-                    userSelected={userSelected}
-                    initialUserForm={initialUserForm}
-                    handlerAddUser={handlerAddUser}
-                    handlerRemoveuser={handlerRemoveuser}
-                    handlerUserSelectedForm={handlerUserSelectedForm}
-                    visibleForm={visibleForm}
-                    handlerVisibleForm={handlerVisibleForm}
-                />} />
+                <Routes>
+                    <Route path="users" element={< UsersPage />} />
 
-                <Route path="users/register" element={< RegisterPage
-                    handlerAddUser={handlerAddUser}
-                    initialUserForm={initialUserForm} />} />
+                    <Route path="users/register" element={< RegisterPage />} />
 
-                <Route path="users/edit/:id" element={< RegisterPage
-                    users={users}
-                    handlerAddUser={handlerAddUser}
-                    initialUserForm={initialUserForm} />} />
+                    <Route path="users/edit/:id" element={< RegisterPage />} />
 
-                <Route path="/" element={< Navigate to={"/users"} />} />
+                    <Route path="/" element={< Navigate to={"/users"} />} />
 
-            </Routes>
-
+                </Routes>
+            </UserProvider>
         </>
     )
 
