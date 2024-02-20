@@ -8,8 +8,7 @@ export const usersReducer = (state = [], action) => {
             return [
                 ...state,
                 {
-                    ...action.payload,
-                    id: new Date().getTime(),
+                    ...action.payload
                 }
             ];
 
@@ -24,6 +23,8 @@ export const usersReducer = (state = [], action) => {
                 return usuario;
             })
 
+        case 'loadingUsers':
+            return action.payload;
         default:
             return state;
 
