@@ -68,7 +68,19 @@ export const useUsers = () => {
 
             if (error.response && error.response.status == 400) {
                 seterrors(error.response.data);
-            } else {
+
+            } else if (error.response && error.response.status == 500
+                && error.response.data?.message?.includes('constraint')) {
+
+                if (error.response.data?.message?.includes('UK_username')) {
+                    seterrors({ username: 'El usuario ya existe' })
+                }
+                if (error.response.data?.message?.includes('UK_email')) {
+                    seterrors({ email: 'El email ya ha sido registrado' })
+                }
+            }
+
+            else {
                 throw error;
             }
 
@@ -116,6 +128,7 @@ export const useUsers = () => {
         setVisibleForm(visible);
         if (!visible) {
             setUserSelected(initialUserForm);
+            seterrors({});
         }
     }
 

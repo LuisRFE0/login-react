@@ -38,7 +38,8 @@ export const update = async ({ id, username, email }) => {
 
         return await axios.put(`${BASE_URL}/${id}`, {
             username,
-            email
+            email,
+            password: 'nothing'
         })
 
     } catch (error) {

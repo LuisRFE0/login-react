@@ -25,9 +25,6 @@ export const UserForm = ({ handlerVisibleForm, userSelected }) => {
 
         })
 
-
-
-
     }
 
     const onSubmit = event => {
@@ -44,7 +41,6 @@ export const UserForm = ({ handlerVisibleForm, userSelected }) => {
         }
 
         handlerAddUser(userForm)
-        setUserform(initialUserForm);
     }
 
     return (
@@ -61,6 +57,8 @@ export const UserForm = ({ handlerVisibleForm, userSelected }) => {
                     value={username}
                     onChange={onInputChange}
                 />
+                <p className="text-danger">{errors?.username} </p>
+
                 {id > 0 || <input
                     type="password"
                     className="form-control my-3 w-75"
@@ -69,6 +67,7 @@ export const UserForm = ({ handlerVisibleForm, userSelected }) => {
                     value={password}
                     onChange={onInputChange}
                 />}
+                <p className="text-danger">{errors?.password} </p>
 
 
                 <input
@@ -78,6 +77,7 @@ export const UserForm = ({ handlerVisibleForm, userSelected }) => {
                     value={email}
                     onChange={onInputChange}
                 />
+                <p className="text-danger">{errors?.email} </p>
 
                 <input type="hidden"
                     name="id"
