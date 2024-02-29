@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 
 export const UserForm = ({ handlerVisibleForm, userSelected }) => {
 
-    const { handlerAddUser, initialUserForm } = useContext(UserContext);
+    const { handlerAddUser, initialUserForm, errors } = useContext(UserContext);
 
     const [userForm, setUserform] = useState(initialUserForm);
     const { id, username, password, email } = userForm;

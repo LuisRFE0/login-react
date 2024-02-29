@@ -14,11 +14,19 @@ const initialUserForm = {
     password: '',
     email: ''
 }
+const initialErrors = {
+
+    username: '',
+    password: '',
+    email: ''
+}
 export const useUsers = () => {
 
     const [users, dispatch] = useReducer(usersReducer, initialUsers);
     const [userSelected, setUserSelected] = useState(initialUserForm);
     const [visibleForm, setVisibleForm] = useState(false);
+    const [errors, seterrors] = useState(initialErrors);
+
     const navigate = useNavigate();
 
     const getUsers = async () => {
@@ -31,26 +39,40 @@ export const useUsers = () => {
 
     const handlerAddUser = async (user) => {
         let response;
-        if (user.id === 0) {
-            response = await save(user);
-        } else {
-            response = await update(user);
+
+        try {
+
+
+
+            if (user.id === 0) {
+                response = await save(user);
+            } else {
+                response = await update(user);
+            }
+
+            dispatch({
+                type: (user.id === 0) ? 'addUser' : 'updateUser',
+                payload: response.data
+            })
+
+            Swal.fire({
+                title: (user.id === 0) ? 'Usuario creado' : 'Usuario Actualizado',
+                text: (user.id === 0) ? 'Usuario creado correctamente' : 'Usuario Actualizado correctamente',
+                icon: "success"
+            });
+
+            setVisibleForm(false);
+            setUserSelected(initialUserForm);
+            navigate('/users');
+        } catch (error) {
+
+            if (error.response && error.response.status == 400) {
+                seterrors(error.response.data);
+            } else {
+                throw error;
+            }
+
         }
-
-        dispatch({
-            type: (user.id === 0) ? 'addUser' : 'updateUser',
-            payload: response.data
-        })
-
-        Swal.fire({
-            title: (user.id === 0) ? 'Usuario creado' : 'Usuario Actualizado',
-            text: (user.id === 0) ? 'Usuario creado correctamente' : 'Usuario Actualizado correctamente',
-            icon: "success"
-        });
-
-        setVisibleForm(false);
-        setUserSelected(initialUserForm);
-        navigate('/users');
     }
 
 
@@ -102,6 +124,7 @@ export const useUsers = () => {
         userSelected,
         initialUserForm,
         visibleForm,
+        errors,
         handlerAddUser,
         handlerRemoveuser,
         handlerUserSelectedForm,
