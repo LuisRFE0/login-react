@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const initialUser = !JSON.parse(sessionStorage.getItem('login')) ? {
     isAuth: false,
+    isAdmin: false,
     user: undefined
 } : JSON.parse(sessionStorage.getItem('login'));
 
@@ -22,16 +23,18 @@ export const useAuth = () => {
             const response = await loginUser({ username, password });
 
             const token = response.data.token;
+            const claims = JSON.parse(window.atob(token.split('.')[1]));
+
 
             const user = {
-                username: response.data.username
+                username: claims.username
             }
             dispatch({
                 type: 'login',
-                payload: user
+                payload: { user, isAdmin: claims.isAdmin }
             });
 
-            sessionStorage.setItem('login', JSON.stringify({ isAuth: true, user }));
+            sessionStorage.setItem("token", `Bearer ${token}`);
             navigate('/users');
 
         } catch (error) {
