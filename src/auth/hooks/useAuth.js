@@ -17,12 +17,14 @@ export const useAuth = () => {
 
     const [login, dispatch] = useReducer(loginReducer, initialUser)
 
-    const handlerLogin = ({ username, password }) => {
-        const isLogin = loginUser({ username, password });
-        if (isLogin) {
+    const handlerLogin = async ({ username, password }) => {
+        try {
+            const response = await loginUser({ username, password });
+
+            const token = response.data.token;
 
             const user = {
-                username: 'admin'
+                username: response.data.username
             }
             dispatch({
                 type: 'login',
@@ -32,7 +34,7 @@ export const useAuth = () => {
             sessionStorage.setItem('login', JSON.stringify({ isAuth: true, user }));
             navigate('/users');
 
-        } else {
+        } catch (error) {
             Swal.fire(
                 'Error',
                 "Username y/o password incorrectos",
