@@ -27,22 +27,39 @@ export const useAuth = () => {
 
 
             const user = {
-                username: claims.username
+                username: claims.sub
             }
             dispatch({
                 type: 'login',
                 payload: { user, isAdmin: claims.isAdmin }
             });
 
+            sessionStorage.setItem('login', JSON.stringify({
+                isAuth: true,
+                isAdmin: claims.isAdmin,
+                user
+            }))
+
             sessionStorage.setItem("token", `Bearer ${token}`);
             navigate('/users');
 
         } catch (error) {
-            Swal.fire(
-                'Error',
-                "Username y/o password incorrectos",
-                'error'
-            )
+            if (error.response?.status == 401) {
+                Swal.fire(
+                    'Error',
+                    "Username y/o password incorrectos",
+                    'error'
+                )
+            } else if (error.response?.status == 403) {
+                Swal.fire(
+                    'Error',
+                    "No tiene acceso al recurso",
+                    'error'
+                )
+            } else {
+                throw error;
+            }
+
         }
     }
 
@@ -54,6 +71,8 @@ export const useAuth = () => {
         )
 
         sessionStorage.removeItem('login');
+        sessionStorage.removeItem('token');
+        sessionStorage.clear();
     }
 
 

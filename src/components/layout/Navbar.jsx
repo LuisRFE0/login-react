@@ -17,9 +17,11 @@ export const Navbar = () => {
                             <li className="nav-item">
                                 <NavLink className='nav-link' to='/users' >Usuarios</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className='nav-link' to='/users/register' >Registrar Usuario</NavLink>
-                            </li>
+                            {!login.isAdmin ||
+                                <li className="nav-item">
+                                    <NavLink className='nav-link' to='/users/register' >Registrar Usuario</NavLink>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNavLogout">

@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../services/userService";
+import { AuthContext } from "../auth/context/AuthContext";
 
 const initialUsers = [
 
@@ -26,6 +27,7 @@ export const useUsers = () => {
     const [userSelected, setUserSelected] = useState(initialUserForm);
     const [visibleForm, setVisibleForm] = useState(false);
     const [errors, seterrors] = useState(initialErrors);
+    const { login, handlerLogout } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -78,6 +80,8 @@ export const useUsers = () => {
                 if (error.response.data?.message?.includes('UK_email')) {
                     seterrors({ email: 'El email ya ha sido registrado' })
                 }
+            } else if (error.response?.status == 401) {
+                handlerLogout();
             }
 
             else {
@@ -99,19 +103,27 @@ export const useUsers = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Si, borrar"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                remove(id);
-                dispatch({
-                    type: 'removeUser',
-                    payload: id
 
-                })
-                Swal.fire({
-                    title: "Borrar",
-                    text: "El usuario ha sido eliminado",
-                    icon: "success"
-                });
+                try {
+                    await remove(id);
+                    dispatch({
+                        type: 'removeUser',
+                        payload: id
+
+                    })
+                    Swal.fire({
+                        title: "Borrar",
+                        text: "El usuario ha sido eliminado",
+                        icon: "success"
+                    });
+                } catch (error) {
+                    if (error.response?.status == 401) {
+                        handlerLogout();
+                    }
+                }
+
             }
         });
 
