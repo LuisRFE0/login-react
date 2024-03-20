@@ -13,21 +13,21 @@ export const Userrouters = () => {
 
     return (
         <>
-            <UserProvider>
-                <Navbar />
 
-                <Routes>
-                    <Route path="users" element={< UsersPage />} />
+            <Navbar />
 
-                    {!login.isAdmin || <>
-                        <Route path="users/register" element={< RegisterPage />} />
+            <Routes>
+                <Route path="users" element={< UsersPage />} />
 
-                        <Route path="users/edit/:id" element={< RegisterPage />} />
-                    </>}
-                    <Route path="/" element={< Navigate to={"/users"} />} />
+                {!login.isAdmin || <>
+                    <Route path="users/register" element={< RegisterPage />} />
 
-                </Routes>
-            </UserProvider>
+                    <Route path="users/edit/:id" element={< RegisterPage />} />
+                </>}
+                <Route path="/" element={< Navigate to={"/users"} />} />
+
+            </Routes>
+
         </>
     )
 

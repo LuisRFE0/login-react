@@ -8,6 +8,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <UsersApp />
     </BrowserRouter>
-
   </React.StrictMode>,
 )
